@@ -127,6 +127,7 @@ expressApp.post("/webhook", function(request, response, next) {
         agent.add(`We send you mail please check`);
       }
     });
+    sendMail().catch(console.error);
   }
 
   let intentMap = new Map();
