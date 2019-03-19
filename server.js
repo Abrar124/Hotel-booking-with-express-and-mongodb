@@ -87,7 +87,6 @@ expressApp.post("/webhook", function(request, response, next) {
       }
     });
 
-    agent.add(`Good day! What can I do for you today?`);
   }
 
   let intentMap = new Map();
