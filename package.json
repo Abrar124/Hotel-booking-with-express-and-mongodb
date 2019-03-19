@@ -9,6 +9,7 @@
   "author": "Muhammad Ibrar",
   "license": "ISC",
   "dependencies": {
+    "@sendgrid/mail": "^6.3.1",
     "actions-on-google": "^2.6.0",
     "body-parser": "^1.18.3",
     "dialogflow-fulfillment": "^0.6.1",

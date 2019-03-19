@@ -2,10 +2,14 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const nodemailer = require("nodemailer");
+const sgMail = require("@sendgrid/mail");
 const { WebhookClient } = require("dialogflow-fulfillment");
 const expressApp = express().use(bodyParser.json());
 
-mongoose.Promise = global.Promise;
+process.env.DEBUG = "dialogflow:debug";
+(process.env.SENDGRID_API_KEY =
+  "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"),
+  (mongoose.Promise = global.Promise);
 const dburi =
   "mongodb://abrar:dialogflow124@ds217976.mlab.com:17976/hotel_booking_dialogflow";
 mongoose.connect(dburi, { useNewUrlParser: true }).catch(err => {
@@ -89,21 +93,34 @@ expressApp.post("/webhook", function(request, response, next) {
     });
   }
 
-  async function sendMail(agent) {
+  function sendMail(agent) {
+    sgMail.setApiKey(process.env.SENDGRID_API_KEY);
     const emailToSent = "abrar.khurshid.124@gmail.com";
-   
-      let account = await nodemailer.createTestAccount();
-    
-      let transporter = nodemailer.createTransport({
-        host: "smtp.ethereal.email",
-        port: 587,
-        secure: false, // true for 465, false for other ports
-        auth: {
-          user: account.user, // generated ethereal user
-          pass: account.pass // generated ethereal password
-        }
-      });
-    
+
+    const msg = {
+      to: emailToSent,
+      from: "peter.fessel@gmail.com",
+      subject: "Just a quick note",
+      text: "Just saying Hi from Dialogflow...",
+      html: "Just saying <strong>Hi from Dialogflow</strong>..."
+    };
+    console.log(msg);
+    sgMail.send(msg);
+
+    agent.add(`What a beauty!`);
+
+    // let account = await nodemailer.createTestAccount();
+
+    // let transporter = nodemailer.createTransport({
+    //   host: "smtp.ethereal.email",
+    //   port: 587,
+    //   secure: false, // true for 465, false for other ports
+    //   auth: {
+    //     user: account.user, // generated ethereal user
+    //     pass: account.pass // generated ethereal password
+    //   }
+    // });
+
     // const transporter = nodemailer.createTransport({
     //   service: "gmail",
     //   auth: {
@@ -112,21 +129,21 @@ expressApp.post("/webhook", function(request, response, next) {
     //   }
     // });
 
-    var mailOptions = {
-      from: "abrar.khurshid.120@gmail.com",
-      to: emailToSent, //receiver email
-      subject: "Dialogflow Mail",
-      text: "I am successfully implement the mail functionality on chatbot"
-    };
+    // var mailOptions = {
+    //   from: "abrar.khurshid.120@gmail.com",
+    //   to: emailToSent, //receiver email
+    //   subject: "Dialogflow Mail",
+    //   text: "I am successfully implement the mail functionality on chatbot"
+    // };
 
-    transporter.sendMail(mailOptions, function(error, info) {
-      if (error) {
-        console.log(error);
-      } else {
-        console.log('Email sent:', mailOptions) ;
-        agent.add(`We send you mail please check`);
-      }
-    });
+    // transporter.sendMail(mailOptions, function(error, info) {
+    //   if (error) {
+    //     console.log(error);
+    //   } else {
+    //     console.log('Email sent:', mailOptions) ;
+    //     agent.add(`We send you mail please check`);
+    //   }
+    // });
     sendMail().catch(console.error);
   }
 
