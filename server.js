@@ -80,7 +80,7 @@ expressApp.post("/webhook", function(request, response, next) {
         console.log(err);
       } else {
         agent.add(
-          `Room for 5 persons. Ordered by name contact email is : mail`
+          `Room for 5 persons. Ordered by ${bookingName} contact email is : mail`
         );
       }
     });
