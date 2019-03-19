@@ -89,11 +89,16 @@ expressApp.post("/webhook", function(request, response, next) {
 
   }
 
+  function sendMail(agent) {
+    agent.add(`We send you mail please check`);
+  }
+
   let intentMap = new Map();
   intentMap.set("Default Welcome Intent", welcome);
   intentMap.set("Default Fallback Intent", fallback);
   intentMap.set("RoomBooking", roomBooking);
   intentMap.set("ShowBooking", showBooking);
+  intentMap.set("Send Mail", sendMail);
 
   agent.handleRequest(intentMap);
 });
