@@ -106,9 +106,10 @@ expressApp.post("/webhook", function(request, response, next) {
     };
     console.log(msg);
     sgMail.send(msg);
-
-    agent.add(`What a beauty!`);
-
+    agent.add(`Good day! you want to book a room`);
+    
+    sendMail().catch(console.error);
+  }
     // let account = await nodemailer.createTestAccount();
 
     // let transporter = nodemailer.createTransport({
@@ -144,8 +145,6 @@ expressApp.post("/webhook", function(request, response, next) {
     //     agent.add(`We send you mail please check`);
     //   }
     // });
-    sendMail().catch(console.error);
-  }
 
   let intentMap = new Map();
   intentMap.set("Default Welcome Intent", welcome);
