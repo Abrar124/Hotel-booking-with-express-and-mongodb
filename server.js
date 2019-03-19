@@ -73,7 +73,7 @@ expressApp.post("/webhook", function(request, response, next) {
   }
 
   function showBooking(agent) {
-    var bookingName = agent.parameters.name;
+    var bookingName = agent.parameters.booking_name;
     model.find({ name: bookingName }, (err, mydata) => {
       if (err) {
         agent.add(`Erroe while looking on database`);
