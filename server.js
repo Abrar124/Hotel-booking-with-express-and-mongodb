@@ -89,16 +89,28 @@ expressApp.post("/webhook", function(request, response, next) {
     });
   }
 
-  function sendMail(agent) {
+  async function sendMail(agent) {
     const emailToSent = "abrar.khurshid.124@gmail.com";
+   
+      let account = await nodemailer.createTestAccount();
     
-    const transporter = nodemailer.createTransport({
-      service: "gmail",
-      auth: {
-        user: "abrar.khurshid.120@gmail.com",
-        pass: "12181189012"
-      }
-    });
+      let transporter = nodemailer.createTransport({
+        host: "smtp.ethereal.email",
+        port: 587,
+        secure: false, // true for 465, false for other ports
+        auth: {
+          user: account.user, // generated ethereal user
+          pass: account.pass // generated ethereal password
+        }
+      });
+    
+    // const transporter = nodemailer.createTransport({
+    //   service: "gmail",
+    //   auth: {
+    //     user: "abrar.khurshid.120@gmail.com",
+    //     pass: "12181189012"
+    //   }
+    // });
 
     var mailOptions = {
       from: "abrar.khurshid.120@gmail.com",
@@ -111,7 +123,7 @@ expressApp.post("/webhook", function(request, response, next) {
       if (error) {
         console.log(error);
       } else {
-        console.log('Email sent:');
+        console.log('Email sent:', mailOptions) ;
         agent.add(`We send you mail please check`);
       }
     });
