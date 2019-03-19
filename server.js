@@ -72,10 +72,27 @@ expressApp.post("/webhook", function(request, response, next) {
     persons have forwarded we will contact you on ${email}`);
   }
 
+  function showBooking(agent) {
+    var bookingName = agent.parameters.name;
+    model.find({ name: bookingName }, (err, mydata) => {
+      if (err) {
+        agent.add(`Erroe while looking on database`);
+        console.log(err);
+      } else {
+        agent.add(
+          `Room for 5 persons. Ordered by name contact email is : mail`
+        );
+      }
+    });
+
+    agent.add(`Good day! What can I do for you today?`);
+  }
+
   let intentMap = new Map();
   intentMap.set("Default Welcome Intent", welcome);
   intentMap.set("Default Fallback Intent", fallback);
   intentMap.set("RoomBooking", roomBooking);
+  intentMap.set("ShowBooking", showBooking);
 
   agent.handleRequest(intentMap);
 });
