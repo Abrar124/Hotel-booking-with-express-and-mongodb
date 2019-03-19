@@ -1,6 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
+const nodemailer = require("nodemailer");
 const { WebhookClient } = require("dialogflow-fulfillment");
 const expressApp = express().use(bodyParser.json());
 
@@ -74,23 +75,46 @@ expressApp.post("/webhook", function(request, response, next) {
 
   function showBooking(agent) {
     var bookingName = agent.parameters.bookingname;
-    console.log('Booking Name:', bookingName);
+    console.log("Booking Name:", bookingName);
     model.find({ name: bookingName }, (err, mydata) => {
       if (err) {
         agent.add(`Erroe while looking on database`);
         console.log(err);
       } else {
-        console.log('success show booking');
-        agent.add(           
+        console.log("success show booking");
+        agent.add(
           `Room for 5 persons. Ordered by ${bookingName} contact email is : mail`
         );
       }
     });
-
   }
 
   function sendMail(agent) {
-    agent.add(`We send you mail please check`);
+    const emailToSent = "abrar.khurshid.124@gmail.com";
+    const nodemailer = require("nodemailer");
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: "abrar.khurshid.120@gmail.com",
+        pass: "12181189012"
+      }
+    });
+
+    var mailOptions = {
+      from: "abrar.khurshid.120@gmail.com",
+      to: emailToSent, //receiver email
+      subject: "Dialogflow Mail",
+      text: "I am successfully implement the mail functionality on chatbot"
+    };
+
+    transporter.sendMail(mailOptions, function(error, info) {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log("Email sent: " + info.response);
+        agent.add(`We send you mail please check`);
+      }
+    });
   }
 
   let intentMap = new Map();
