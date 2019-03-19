@@ -91,7 +91,7 @@ expressApp.post("/webhook", function(request, response, next) {
 
   function sendMail(agent) {
     const emailToSent = "abrar.khurshid.124@gmail.com";
-    const nodemailer = require("nodemailer");
+    
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
@@ -111,7 +111,7 @@ expressApp.post("/webhook", function(request, response, next) {
       if (error) {
         console.log(error);
       } else {
-        console.log("Email sent: " + info.response);
+        console.log('Email sent:');
         agent.add(`We send you mail please check`);
       }
     });
