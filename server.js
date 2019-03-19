@@ -34,7 +34,7 @@ expressApp.post("/webhook", function(request, response, next) {
   const agent = new WebhookClient({ request: request, response: response });
 
   function welcome(agent) {
-    agent.add(`Good day! What can I do for you today?`);
+    agent.add(`Good day! you want to book a room`);
   }
 
   function fallback(agent) {
