@@ -96,7 +96,7 @@ expressApp.post("/webhook", function (request, response, next) {
 
   function sendMail(agent) {
     sendMail().catch(console.error);
-    let account = await nodemailer.createTestAccount();
+    let account =  nodemailer.createTestAccount();
 
     let transporter = nodemailer.createTransport({
       host: "smtp.ethereal.email",
