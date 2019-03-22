@@ -121,7 +121,7 @@ expressApp.post("/webhook", function (request, response, next) {
       from: "abrar.khurshid.120@gmail.com",
       to: emailToSent, //receiver email
       subject: "Dialogflow Mail...",
-      text: "I am successfully implement the mail functionality on chatbot"
+      text: "I am successfully implement the mail functionality on chatbot. I am so Happy"
     };
 console.log(emailToSent);
     transporter.sendMail(mailOptions, function (error, info) {
