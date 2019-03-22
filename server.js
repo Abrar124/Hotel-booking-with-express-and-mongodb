@@ -131,7 +131,7 @@ console.log(emailToSent);
         console.log('Email sent:', mailOptions);
         agent.add(`We send you mail please check`);
       }
-    })
+    }).catch(console.log('error accured'));
     console.log('Success');
   }
   // sendMail().catch(console.error);
