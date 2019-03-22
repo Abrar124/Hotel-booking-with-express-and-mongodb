@@ -131,8 +131,9 @@ expressApp.post("/webhook", function (request, response, next) {
         agent.add(`We send you mail please check`);
       }
     });
-   
+ 
   }
+  sendMail().catch(console.error);
   // sgMail.setApiKey('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');
   // // sgMail.setApiKey(process.env.SENDGRID_API_KEY);
   // const emailToSent = "abrar.khurshid.124@gmail.com";
