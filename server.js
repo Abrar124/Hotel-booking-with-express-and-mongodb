@@ -103,18 +103,32 @@ expressApp.post("/webhook", function(request, response, next) {
       to: emailToSent,
       from: "peter.fessel@gmail.com",
       subject: "Just a quick note",
-      text: "Just saying Hi from Dialogflow...",
+      text: "Just saying Hi from...",
       html: "Just saying <strong>Hi from Dialogflow</strong>..."
     };
     console.log(msg);
-    sgMail.send(msg, function(error, info){
-      if (error) {
-            console.log(error);
-          } else {
-            console.log('Sucessfull Email sent') ;
-            agent.add(`We send you mail please check`);
-          }
+    var promise1 = new Promise(function(resolve, reject) {
+      setTimeout(function() {
+        resolve('foo');
+      }, 300);
     });
+    
+    promise1.then(function(value) {
+      console.log(value);
+      sgMail.send(msg, function(error, info){
+        if (error) {
+              console.log(error);
+            } else {
+              console.log('Sucessfull Email sent') ;
+              agent.add(`We send you mail please check`);
+            }
+      });
+      // expected output: "foo"
+    });
+    
+    console.log(promise1);
+    
+    
     
   }
     
