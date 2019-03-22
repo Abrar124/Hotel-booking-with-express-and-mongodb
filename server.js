@@ -123,29 +123,17 @@ expressApp.post("/webhook", function (request, response, next) {
       text: "I am successfully implement the mail functionality on chatbot"
     };
 
-  
-    let newMail = transporter.sendMail(mailOptions);
-
-    return newMail.save().catch((err) => {
-        if (err.code == 11000) {
-            return Promise.reject('User Name already taken');
-        }
-        else {
-            return Promise.resolve('There was no error');
-            agent.add(`We send you mail please check`);
-        }
+    transporter.sendMail(mailOptions, function (error, info) {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log('Email sent:', mailOptions);
+        agent.add(`We send you mail please check`);
+      }
     });
-    // transporter.sendMail(mailOptions, function (error, info) {
-    //   if (error) {
-    //     console.log(error);
-    //   } else {
-    //     console.log('Email sent:', mailOptions);
-    //     agent.add(`We send you mail please check`);
-    //   }
-    // });
  
   }
-  // sendMail().catch(console.error);
+  sendMail().catch(console.error);
   // sgMail.setApiKey('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');
   // // sgMail.setApiKey(process.env.SENDGRID_API_KEY);
   // const emailToSent = "abrar.khurshid.124@gmail.com";
