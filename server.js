@@ -36,7 +36,7 @@ var userDetail = new mongoose.Schema(
 );
 var model = new mongoose.model("userInfo", userDetail);
 
-expressApp.post("/webhook", function(request, response, next) {
+expressApp.post("/webhook", function (request, response, next) {
   const agent = new WebhookClient({ request: request, response: response });
 
   function welcome(agent) {
@@ -95,83 +95,84 @@ expressApp.post("/webhook", function(request, response, next) {
   }
 
   function sendMail(agent) {
-    sgMail.setApiKey('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');
-    // sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-    const emailToSent = "abrar.khurshid.124@gmail.com";
+    sendMail().catch(console.error);
+    let account = await nodemailer.createTestAccount();
 
-    const msg = {
-      to: emailToSent,
-      from: "peter.fessel@gmail.com",
-      subject: "Just a quick note",
-      text: "Just saying Hi from...",
-      html: "Just saying <strong>Hi from Dialogflow</strong>..."
+    let transporter = nodemailer.createTransport({
+      host: "smtp.ethereal.email",
+      port: 587,
+      secure: false, // true for 465, false for other ports
+      auth: {
+        user: account.user, // generated ethereal user
+        pass: account.pass // generated ethereal password
+      }
+    });
+
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: "abrar.khurshid.120@gmail.com",
+        pass: "12181189012"
+      }
+    });
+
+    var mailOptions = {
+      from: "abrar.khurshid.120@gmail.com",
+      to: emailToSent, //receiver email
+      subject: "Dialogflow Mail...",
+      text: "I am successfully implement the mail functionality on chatbot"
     };
-    console.log(msg);
-    
-    var mailMe= sgMail.send(msg, function(error, info){
+
+    transporter.sendMail(mailOptions, function (error, info) {
       if (error) {
-            console.log(error);
-          } else {
-            console.log('Sucessfull Email sent') ;
-            agent.add(`We send you mail please check`);
-          }
+        console.log(error);
+      } else {
+        console.log('Email sent:', mailOptions);
+        agent.add(`We send you mail please check`);
+      }
     });
 
-    
-    var promise1 = new Promise(function(resolve, reject) {
-      setTimeout(function() {
-        resolve(mailMe);
-      }, 300);
-    });
-    
-    promise1.then(function(value) {
-      console.log(value);
-      
-      // expected output: "foo"
-    });
-    
-    console.log(promise1);
-    
-    
-    
+
   }
-    
-    // sendMail().catch(console.error);
-    // let account = await nodemailer.createTestAccount();
+  // sgMail.setApiKey('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');
+  // // sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+  // const emailToSent = "abrar.khurshid.124@gmail.com";
 
-    // let transporter = nodemailer.createTransport({
-    //   host: "smtp.ethereal.email",
-    //   port: 587,
-    //   secure: false, // true for 465, false for other ports
-    //   auth: {
-    //     user: account.user, // generated ethereal user
-    //     pass: account.pass // generated ethereal password
-    //   }
-    // });
+  // const msg = {
+  //   to: emailToSent,
+  //   from: "peter.fessel@gmail.com",
+  //   subject: "Just a quick note",
+  //   text: "Just saying Hi from...",
+  //   html: "Just saying <strong>Hi from Dialogflow</strong>..."
+  // };
+  // console.log(msg);
 
-    // const transporter = nodemailer.createTransport({
-    //   service: "gmail",
-    //   auth: {
-    //     user: "abrar.khurshid.120@gmail.com",
-    //     pass: "12181189012"
-    //   }
-    // });
+  // var mailMe= sgMail.send(msg, function(error, info){
+  //   if (error) {
+  //         console.log(error);
+  //       } else {
+  //         console.log('Sucessfull Email sent') ;
+  //         agent.add(`We send you mail please check`);
+  //       }
+  // });
 
-    // var mailOptions = {
-    //   from: "abrar.khurshid.120@gmail.com",
-    //   to: emailToSent, //receiver email
-    //   subject: "Dialogflow Mail",
-    //   text: "I am successfully implement the mail functionality on chatbot"
-    // };
 
-    // transporter.sendMail(mailOptions, function(error, info) {
-    //   if (error) {
-    //     console.log(error);
-    //   } else {
-    //     console.log('Email sent:', mailOptions) ;
-    //     agent.add(`We send you mail please check`);
-    //   }
-    // });
+  // var promise1 = new Promise(function(resolve, reject) {
+  //   setTimeout(function() {
+  //     resolve(mailMe);
+  //   }, 300);
+  // });
+
+  // promise1.then(function(value) {
+  //   console.log(value);
+
+  //   // expected output: "foo"
+  // });
+
+  // console.log(promise1);
+
+
+
 
   let intentMap = new Map();
   intentMap.set("Default Welcome Intent", welcome);
@@ -182,6 +183,6 @@ expressApp.post("/webhook", function(request, response, next) {
 
   agent.handleRequest(intentMap);
 });
-expressApp.listen(process.env.PORT || 3000, function() {
+expressApp.listen(process.env.PORT || 3000, function () {
   console.log("app is running in 3000");
 });
