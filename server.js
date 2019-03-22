@@ -95,6 +95,7 @@ expressApp.post("/webhook", function (request, response, next) {
   }
 
   function sendMail(agent) {
+      const emailToSent = "abrar.khurshid.124@gmail.com";
     sendMail().catch(console.error);
     let account =  nodemailer.createTestAccount();
 
@@ -108,13 +109,13 @@ expressApp.post("/webhook", function (request, response, next) {
       }
     });
 
-    const transporter = nodemailer.createTransport({
-      service: "gmail",
-      auth: {
-        user: "abrar.khurshid.120@gmail.com",
-        pass: "12181189012"
-      }
-    });
+    // const transporter = nodemailer.createTransport({
+    //   service: "gmail",
+    //   auth: {
+    //     user: "abrar.khurshid.120@gmail.com",
+    //     pass: "12181189012"
+    //   }
+    // });
 
     var mailOptions = {
       from: "abrar.khurshid.120@gmail.com",
