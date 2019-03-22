@@ -134,7 +134,17 @@ console.log(emailToSent);
     })
     console.log('Success');
   }
-  sendMail().catch(console.error);
+
+  Promise.resolve()
+  .then(sendMail)
+  .catch(err => {
+    console.error(err);
+    return err; 
+  })
+  .then(ok => {
+    console.log('Okay all well')
+  });
+  // sendMail().catch(console.error);
   // sgMail.setApiKey('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');
   // // sgMail.setApiKey(process.env.SENDGRID_API_KEY);
   // const emailToSent = "abrar.khurshid.124@gmail.com";
