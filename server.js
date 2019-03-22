@@ -107,22 +107,26 @@ expressApp.post("/webhook", function(request, response, next) {
       html: "Just saying <strong>Hi from Dialogflow</strong>..."
     };
     console.log(msg);
+    
+    var mailMe= sgMail.send(msg, function(error, info){
+      if (error) {
+            console.log(error);
+          } else {
+            console.log('Sucessfull Email sent') ;
+            agent.add(`We send you mail please check`);
+          }
+    });
+
+    
     var promise1 = new Promise(function(resolve, reject) {
       setTimeout(function() {
-        resolve('foo');
+        resolve(mailMe);
       }, 300);
     });
     
     promise1.then(function(value) {
       console.log(value);
-      sgMail.send(msg, function(error, info){
-        if (error) {
-              console.log(error);
-            } else {
-              console.log('Sucessfull Email sent') ;
-              agent.add(`We send you mail please check`);
-            }
-      });
+      
       // expected output: "foo"
     });
     
