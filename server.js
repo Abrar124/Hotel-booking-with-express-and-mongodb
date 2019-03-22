@@ -105,11 +105,18 @@ expressApp.post("/webhook", function(request, response, next) {
       html: "Just saying <strong>Hi from Dialogflow</strong>..."
     };
     console.log(msg);
-    sgMail.send(msg);
-    agent.add(`Good day! you want to book a room`);
+    sgMail.send(msg, function(error, info){
+      if (error) {
+            console.log(error);
+          } else {
+            console.log('Sucessfull Email sent') ;
+            agent.add(`We send you mail please check`);
+          }
+    });
     
-    sendMail().catch(console.error);
   }
+    
+    // sendMail().catch(console.error);
     // let account = await nodemailer.createTestAccount();
 
     // let transporter = nodemailer.createTransport({
