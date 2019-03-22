@@ -7,9 +7,10 @@ const { WebhookClient } = require("dialogflow-fulfillment");
 const expressApp = express().use(bodyParser.json());
 
 process.env.DEBUG = "dialogflow:debug";
-(process.env.SENDGRID_API_KEY =
-  "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"),
-  (mongoose.Promise = global.Promise);
+// (process.env.SENDGRID_API_KEY =
+//   "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"),
+//   (mongoose.Promise = global.Promise);
+
 const dburi =
   "mongodb://abrar:dialogflow124@ds217976.mlab.com:17976/hotel_booking_dialogflow";
 mongoose.connect(dburi, { useNewUrlParser: true }).catch(err => {
@@ -94,7 +95,8 @@ expressApp.post("/webhook", function(request, response, next) {
   }
 
   function sendMail(agent) {
-    sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+    sgMail.setApiKey('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');
+    // sgMail.setApiKey(process.env.SENDGRID_API_KEY);
     const emailToSent = "abrar.khurshid.124@gmail.com";
 
     const msg = {
