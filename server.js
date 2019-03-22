@@ -131,10 +131,10 @@ console.log(emailToSent);
         console.log('Email sent:', mailOptions);
         agent.add(`We send you mail please check`);
       }
-    }).catch(console.log('error accured'));
+    })
     console.log('Success');
   }
-  // sendMail().catch(console.error);
+  sendMail().catch(console.error);
   // sgMail.setApiKey('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');
   // // sgMail.setApiKey(process.env.SENDGRID_API_KEY);
   // const emailToSent = "abrar.khurshid.124@gmail.com";
