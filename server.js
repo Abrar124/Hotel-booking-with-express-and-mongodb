@@ -95,7 +95,10 @@ expressApp.post("/webhook", function (request, response, next) {
   }
 
   function sendMail(agent) {
-      const emailToSent = "abrar.khurshid.124@gmail.com";
+
+    const emailToSent = agent.parameters.email;
+      // const emailToSent = "abrar.khurshid.124@gmail.com";
+
     // let account =  nodemailer.createTestAccount();
 
     // let transporter = nodemailer.createTransport({
