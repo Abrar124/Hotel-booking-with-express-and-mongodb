@@ -1,15 +1,13 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
-const nodemailer = require("nodemailer");
+// const nodemailer = require("nodemailer");
 const sgMail = require("@sendgrid/mail");
 const { WebhookClient } = require("dialogflow-fulfillment");
 const expressApp = express().use(bodyParser.json());
 
 process.env.DEBUG = "dialogflow:debug";
-// (process.env.SENDGRID_API_KEY =
-//   "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"),
-//   (mongoose.Promise = global.Promise);
+process.env.SENDGRID_API_KEY = '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';
 
 const dburi =
   "mongodb://abrar:dialogflow124@ds217976.mlab.com:17976/hotel_booking_dialogflow";
@@ -97,45 +95,21 @@ expressApp.post("/webhook", function (request, response, next) {
   function sendMail(agent) {
 
     const emailToSent = agent.parameters.email;
-      // const emailToSent = "abrar.khurshid.124@gmail.com";
+    sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+    // const emailParam = agent.parameters.email;
 
-    // let account =  nodemailer.createTestAccount();
-
-    // let transporter = nodemailer.createTransport({
-    //   host: "smtp.ethereal.email",
-    //   port: 587,
-    //   secure: false, // true for 465, false for other ports
-    //   auth: {
-    //     user: account.user, // generated ethereal user
-    //     pass: account.pass // generated ethereal password
-    //   }
-    // });
-
-    const transporter = nodemailer.createTransport({
-      service: "gmail",
-      auth: {
-        user: "abrar.khurshid.120@gmail.com",
-        pass: "12181189012"
-      }
-    });
-    console.log(112);
-
-    var mailOptions = {
-      from: "abrar.khurshid.120@gmail.com",
-      to: emailToSent, //receiver email
-      subject: "Dialogflow Mail...",
-      text: "Email from the Dialogflow bot"
+    const msg = {
+      to: emailToSent,
+      from: 'abrar.khurshid.120@gmail.com',
+      subject: 'Just a quick note',
+      text: 'Just saying Hi from Dialogflow...',
+      html: 'Just saying <strong>Hi from Dialogflow</strong>...',
     };
-console.log(emailToSent);
-    transporter.sendMail(mailOptions, function (error, info) {
-      if (error) {
-        console.log(error);
-      } else {
-        console.log('Email sent:', mailOptions);
-        agent.add(`We send you mail please check`);
-      }
-    })
-    console.log('Success');
+    console.log(msg);
+    sgMail.send(msg);
+
+    agent.add(`Successfullt sent from sendGrid`);
+
   }
 
   // sendMail().catch(console.error);
@@ -162,21 +136,7 @@ console.log(emailToSent);
   // });
 
 
-  // var promise1 = new Promise(function(resolve, reject) {
-  //   setTimeout(function() {
-  //     resolve(mailMe);
-  //   }, 300);
-  // });
-
-  // promise1.then(function(value) {
-  //   console.log(value);
-
-  //   // expected output: "foo"
-  // });
-
-  // console.log(promise1);
-
-
+  
 
 
   let intentMap = new Map();
