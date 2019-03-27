@@ -2,12 +2,12 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 // const nodemailer = require("nodemailer");
-const sgMail = require("@sendgrid/mail");
+const sgMail = require('@sendgrid/mail');
 const { WebhookClient } = require("dialogflow-fulfillment");
 const expressApp = express().use(bodyParser.json());
 
 process.env.DEBUG = "dialogflow:debug";
-process.env.SENDGRID_API_KEY = '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';
+// process.env.SENDGRID_API_KEY = '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';
 
 const dburi =
   "mongodb://abrar:dialogflow124@ds217976.mlab.com:17976/hotel_booking_dialogflow";
@@ -96,6 +96,7 @@ expressApp.post("/webhook", function (request, response, next) {
 
     const emailToSent = agent.parameters.email;
     sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+
     // const emailParam = agent.parameters.email;
 
     const msg = {
