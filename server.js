@@ -95,7 +95,7 @@ expressApp.post("/webhook", function (request, response, next) {
   function sendMail(agent) {
 
     const emailToSent = agent.parameters.email;
-    sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+    sgMail.setApiKey('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');
 
     // const emailParam = agent.parameters.email;
 
