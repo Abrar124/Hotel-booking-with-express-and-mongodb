@@ -113,33 +113,6 @@ expressApp.post("/webhook", function (request, response, next) {
 
   }
 
-  // sendMail().catch(console.error);
-  // sgMail.setApiKey('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');
-  // // sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-  // const emailToSent = "abrar.khurshid.124@gmail.com";
-
-  // const msg = {
-  //   to: emailToSent,
-  //   from: "peter.fessel@gmail.com",
-  //   subject: "Just a quick note",
-  //   text: "Just saying Hi from...",
-  //   html: "Just saying <strong>Hi from Dialogflow</strong>..."
-  // };
-  // console.log(msg);
-
-  // var mailMe= sgMail.send(msg, function(error, info){
-  //   if (error) {
-  //         console.log(error);
-  //       } else {
-  //         console.log('Sucessfull Email sent') ;
-  //         agent.add(`We send you mail please check`);
-  //       }
-  // });
-
-
-  
-
-
   let intentMap = new Map();
   intentMap.set("Default Welcome Intent", welcome);
   intentMap.set("Default Fallback Intent", fallback);
